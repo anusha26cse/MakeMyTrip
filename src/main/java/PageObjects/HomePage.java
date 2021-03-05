@@ -18,7 +18,7 @@ private By ArrivalCity=By.xpath("//input[@placeholder='To']");
 private By ACity=By.cssSelector(".font14.appendBottom5.blackText");
 private By monthYear=By.cssSelector(".DayPicker-Caption");
 private By navigation=By.xpath("//span[@aria-label='Next Month']");
-private By dates=By.cssSelector("dateInnerCell");
+private By dates=By.xpath("//div[@class='dateInnerCell']/p[1]");
 
     public HomePage(WebDriver driver) {
         this.driver=driver;

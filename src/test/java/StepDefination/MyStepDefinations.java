@@ -62,7 +62,35 @@ int reqDate;
 String reqMonthYear;
     @And("^Select Depature Date And return Date$")
     public void select_depature_date_and_return_date() throws Throwable {
-}
+        data = dd.getData("Depature Date");
+        //System.out.println(data.get(1));
+String rDate=String.valueOf(data.get(1));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        givenDate= LocalDate.parse(rDate);
+boolean tday=LocalDate.parse(rDate).isBefore(LocalDate.now());
+Assert.assertFalse(tday);
+        reqDate = givenDate.getDayOfMonth();
+        String reqMonth=String.valueOf(givenDate.getMonth());
+        String reqYear=String.valueOf(givenDate.getYear());
+        reqMonthYear=reqMonth.substring(0,1).concat(reqMonth.substring(1,reqMonth.length()).toLowerCase()).concat(" ").concat(reqYear);
+        while(true) {
+            if (hp.GetMonthYear().getText().equalsIgnoreCase(reqMonthYear)) {
+                System.out.println(hp.GetMonthYear().getText());
+                int count = hp.GetDates().size();
+                for (int i = 0; i < count; i++) {
+                    System.out.println("Date is"+hp.GetDates().get(i).getText());
+                    if (hp.GetDates().get(i).getText().equalsIgnoreCase(String.valueOf(reqDate))) {
+                        System.out.println(hp.GetDates().get(i));
+                        hp.GetDates().get(i).click();
+                        break;
+                    }
+                }
+break;
+            } else
+                hp.GetNavigation().click();
+        }
+
+    }
 
 
 

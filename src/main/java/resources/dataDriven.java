@@ -3,13 +3,18 @@ package resources;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.DateFormatConverter;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class dataDriven {
@@ -42,8 +47,16 @@ public class dataDriven {
                             Cell c=cell.next();
                             if(c.getCellType()== CellType.STRING)
                             a.add(c.getStringCellValue());
+
+                            else if(c.getCellType()==CellType.FORMULA){
+
+                              LocalDate givenDate=LocalDate.parse(c.getStringCellValue());
+                              a.add(givenDate.toString());
+
+                            }
                             else
                                 a.add(NumberToTextConverter.toText(c.getNumericCellValue()));
+
                         }
                     }
 
