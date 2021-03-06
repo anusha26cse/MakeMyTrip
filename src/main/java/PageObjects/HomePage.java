@@ -18,10 +18,14 @@ public class HomePage {
     private By monthYear = By.cssSelector(".DayPicker-Caption");
     private By navigation = By.xpath("//span[@aria-label='Next Month']");
     private By dates = By.xpath("//div[@class='dateInnerCell']/p[1]");
-    private By TAndC = By.xpath("//div[@data-cy='flightTraveller']");
+    private final By TAndC = By.xpath("//div[@data-cy='flightTraveller']");
     private By Adults = By.xpath("//div[@class='appendBottom20']/ul[1]/li");
     private By childern = By.xpath("//div[@class='makeFlex column childCounter']/ul/li");
     private By Infants = By.xpath("//div[@class='makeFlex column pushRight infantCounter']/ul/li");
+    private By TravelClass=By.xpath("//ul[@class='guestCounter classSelect font12 darkText']/li");
+    private By ApplyBtn=By.cssSelector(".primaryBtn.btnApply.pushRight ");
+    private By FareBtn=By.xpath("//ul[@class='specialFare']/li");
+    private By Search=By.xpath("//a[@class='primaryBtn font24 latoBold widgetSearchBtn ']");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -80,6 +84,10 @@ public class HomePage {
     public List<WebElement> getInfants(){
         return driver.findElements(Infants);
     }
-
-
+public List<WebElement> GetTravelClass(){
+        return driver.findElements(TravelClass);
+}
+public WebElement getApplyBtn(){ return driver.findElement(ApplyBtn);}
+public List<WebElement> getFareBtn(){ return driver.findElements(FareBtn); }
+public WebElement GetSearchBtn(){ return driver.findElement(Search); }
 }

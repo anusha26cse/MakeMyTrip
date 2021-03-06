@@ -140,15 +140,30 @@ public class MyStepDefinations extends BaseClass {
     }
     @And("^Select Class of Travelling$")
     public void select_class_of_travelling() throws Throwable {
-       
+       data=dd.getData("TravelClass");
+       int TravelClassCount=hp.GetTravelClass().size();
+       for(int i=0;i<TravelClassCount;i++) {
+           if (hp.GetTravelClass().get(i).getText().equalsIgnoreCase(String.valueOf(data.get(1)))){
+               hp.GetTravelClass().get(i).click();
+               break;
+           }
+       }
+       hp.getApplyBtn().click();
+
     }
     @And("^Select Type of Fare$")
     public void select_type_of_fare() throws Throwable {
-
+data=dd.getData("Type of Fare");
+int fareCount=hp.getFareBtn().size();
+for(int i=0;i<fareCount;i++){
+    if(hp.getFareBtn().get(i).getText().equalsIgnoreCase(String.valueOf(data.get(1))))
+        hp.getFareBtn().get(i).click();
+}
     }
 
     @And("^Search for the flights$")
     public void search_for_the_flights() throws Throwable {
+        hp.GetSearchBtn().click();
     }
 
 

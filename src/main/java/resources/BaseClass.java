@@ -44,7 +44,7 @@ public class BaseClass {
             driver = new FirefoxDriver();
         }
         driver.manage().window().maximize();
-driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     return driver;
     }
 }
