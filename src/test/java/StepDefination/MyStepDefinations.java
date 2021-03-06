@@ -165,6 +165,20 @@ for(int i=0;i<fareCount;i++){
     public void search_for_the_flights() throws Throwable {
         hp.GetSearchBtn().click();
     }
+    @Given("^wait for the page to load$")
+    public void wait_for_the_page_to_load() throws Throwable {
+
+    }
+
+    @When("^get The price of each flight$")
+    public void get_the_price_of_each_flight() throws Throwable {
+
+    }
+
+    @Then("^select the lowest cost flight$")
+    public void select_the_lowest_cost_flight() throws Throwable {
+
+    }
 
 
 }
