@@ -1,19 +1,24 @@
 package StepDefination;
 
 import PageObjects.HomePage;
+import PageObjects.PricingDetails;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import resources.BaseClass;
 import resources.dataDriven;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class MyStepDefinations extends BaseClass {
     WebDriver driver;
-
     @Given("^Navigate to (.+)$")
     public void navigate_to(String url) throws Throwable {
         driver = initializerDriver();
@@ -25,7 +30,7 @@ public class MyStepDefinations extends BaseClass {
     ArrayList data;
     int strlen;
     String city;
-
+List<WebElement> options;
     @When("^Select DepatureCity$")
     public void select_depaturecity() throws Throwable {
         hp = new HomePage(driver);
@@ -36,12 +41,13 @@ public class MyStepDefinations extends BaseClass {
         dd = new dataDriven();
         data = dd.getData("Depature City");
         hp.GetDepatureCity().sendKeys((CharSequence) data.get(1));
-        int depatureCityCount = hp.GetDCity().size();
-        for (int i = 0; i <= depatureCityCount; i++) {
-            strlen = String.valueOf(data.get(1)).length();
-            city = hp.GetDCity().get(i).getText().substring(0, strlen);
-            if (city.equals(String.valueOf(data.get(1)))) {
-                hp.GetDCity().get(i).click();
+        Thread.sleep(3000);
+        options=hp.GetDCity();
+        for(WebElement option :options){
+            strlen=String.valueOf(data.get(1)).length();
+            city=option.getText().substring(0,strlen);
+            if(city.equalsIgnoreCase(String.valueOf(data.get(1)))){
+                option.click();
                 break;
             }
         }
@@ -51,16 +57,16 @@ public class MyStepDefinations extends BaseClass {
     public void select_arrivalcity() throws Throwable {
         data = dd.getData("Arrival City");
         hp.getArrivaicity().sendKeys(String.valueOf(data.get(1)));
-        int ArrialCityCount = hp.getACity().size();
-        for (int i = 0; i < ArrialCityCount; i++) {
+        Thread.sleep(3000);
+        options=hp.getACity();
+        for(WebElement option :options){
             strlen = String.valueOf(data.get(1)).length();
-            city = hp.getACity().get(i).getText().substring(0, strlen);
+            city = option.getText().substring(0, strlen);
             if (city.equals(String.valueOf(data.get(1)))) {
-                hp.getACity().get(i).click();
+                option.click();
                 break;
             }
         }
-
     }
     LocalDate givenDate;
     int reqDate;
@@ -68,7 +74,6 @@ public class MyStepDefinations extends BaseClass {
     @And("^Select Depature Date$")
     public void select_depature_date() throws Throwable {
         data = dd.getData("Depature Date");
-        //System.out.println(data.get(1));
         String rDate = String.valueOf(data.get(1));
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         givenDate = LocalDate.parse(rDate);
@@ -82,9 +87,7 @@ public class MyStepDefinations extends BaseClass {
             if (hp.GetMonthYear().getText().equalsIgnoreCase(reqMonthYear)) {
                 int count = hp.GetDates().size();
                 for (int i = 0; i < count; i++) {
-                    //System.out.println("Date is" + hp.GetDates().get(i).getText());
                     if (hp.GetDates().get(i).getText().equalsIgnoreCase(String.valueOf(reqDate))) {
-                        System.out.println(hp.GetDates().get(i));
                         hp.GetDates().get(i).click();
                         break;
                     }
@@ -101,12 +104,10 @@ public class MyStepDefinations extends BaseClass {
         int AdultsCount = hp.getAdults().size();
         if (Integer.parseInt(String.valueOf(data.get(1))) <= 9) {
             for (int i = 0; i < AdultsCount - 1; i++) {
-                // System.out.println(hp.getAdults().get(i).getText());
                 if (hp.getAdults().get(i).getText().equalsIgnoreCase(String.valueOf(data.get(1)))) {
                     hp.getAdults().get(i).click();
                     break;
                 }
-
             }
         }
         else {
@@ -149,36 +150,38 @@ public class MyStepDefinations extends BaseClass {
            }
        }
        hp.getApplyBtn().click();
-
     }
     @And("^Select Type of Fare$")
     public void select_type_of_fare() throws Throwable {
 data=dd.getData("Type of Fare");
 int fareCount=hp.getFareBtn().size();
-for(int i=0;i<fareCount;i++){
-    if(hp.getFareBtn().get(i).getText().equalsIgnoreCase(String.valueOf(data.get(1))))
+for(int i=0;i<fareCount;i++) {
+    if (hp.getFareBtn().get(i).getText().equalsIgnoreCase(String.valueOf(data.get(1)))) {
         hp.getFareBtn().get(i).click();
+        break;
+    }
 }
     }
-
+    PricingDetails pd;
+    WebDriverWait wait;
     @And("^Search for the flights$")
     public void search_for_the_flights() throws Throwable {
         hp.GetSearchBtn().click();
-    }
-    @Given("^wait for the page to load$")
-    public void wait_for_the_page_to_load() throws Throwable {
+        Thread.sleep(3000);
+        pd=new PricingDetails(driver);
+        wait= new WebDriverWait(driver,60);
+        wait.until(ExpectedConditions.visibilityOf(pd.getSortBY()));
+        Thread.sleep(3000);
+
+        if(pd.getSort().isDisplayed())
+        {
+         pd.getSort().click();
+        }
+        else
+        {
+pd.GetBuyNow().click();
+        }
+
 
     }
-
-    @When("^get The price of each flight$")
-    public void get_the_price_of_each_flight() throws Throwable {
-
-    }
-
-    @Then("^select the lowest cost flight$")
-    public void select_the_lowest_cost_flight() throws Throwable {
-
-    }
-
-
 }

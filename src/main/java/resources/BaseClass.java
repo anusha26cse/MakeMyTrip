@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
@@ -32,9 +33,9 @@ public class BaseClass {
         } else if (browserName.equals("chrome")) {
 
             System.setProperty("webdriver.chrome.driver",CurrentDir+"\\src\\main\\java\\resources\\chromedriver.exe");
-//ChromeOptions options= new ChromeOptions();
-//options.addArguments("headless");
-            driver = new ChromeDriver();
+ChromeOptions options= new ChromeOptions();
+options.addArguments("--disable-notifications");
+            driver = new ChromeDriver(options);
 
         } else if (browserName.equals("firefox")) {
             System.setProperty("webdriver.gecko.driver", CurrentDir+"\\src\\main\\java\\resources\\geckodriver.exe");
